@@ -1,0 +1,13 @@
+1° download CentOs and update using yum update
+2° coletar o ip para conexão via SSH
+
+master = 192.168.1.100
+dn1 = 192.168.1.108
+dn2 = 192.168.1.109
+
+3° conectar nas máquinas e editar o arquivo hosts das 3
+usando vi /etc/hosts
+
+192.168.1.108 hdpslv1
+192.168.1.109 hdpslv2
+
