@@ -1,13 +1,17 @@
 # Instalação Data Lake
 
+# O hadoop vem pré configurado para rodar como um pseudo cluster, para usar como um cluster real, é necessário configura-lo
+
 # Instalando e Configurando o Hadoop no NameNode
 
 # Editar o arquivo $HADOOP_HOME/etc/hadoop/hadoop-env.sh e adicionar as linhas:
+# Esse arquivo contém configurações de ambiente do hadoop
 
 export HADOOP_CONF_DIR="${HADOOP_HOME}/etc/hadoop"
 export PATH="${PATH}:${HADOOP_HOME}/bin"
 export HADOOP_SSH_OPTS="-i ~/.ssh/hdp-key"
 
+encontrar e alterar também JAVA_HOME e HADOOP_HOME
 
 # Editar o arquivo $HADOOP_HOME/etc/hadoop/core-site.xml e adicionar as linhas:
 
@@ -27,11 +31,12 @@ mkdir /opt/hadoop/dfs/namespace_logs
 
 
 # Editar o arquivo $HADOOP_HOME/etc/hadoop/hdfs-site.xml e adicionar as linhas:
+# Esse arquivo contém configurações do sistema de armazenamento HDFS
 
 <configuration>
     <property>
       <name>dfs.replication</name>
-      <value>3</value>
+      <value>2</value>
     </property>
     <property>
       <name>dfs.namenode.name.dir</name>
@@ -45,12 +50,14 @@ mkdir /opt/hadoop/dfs/namespace_logs
 
 
 # Editar o arquivo $HADOOP_HOME/etc/hadoop/workers e adicionar as linhas:
+# Esse arquivo contém o endereço dos workers
 
 hdpslv1
 hdpslv2
 
 
 # Editar o arquivo $HADOOP_HOME/etc/hadoop/mapred-site.xml e adicionar as linhas:
+# Mesmo que o MapReduce não vá ser utilizado, é necessário configurar
 
 <configuration>
     <property>
@@ -88,6 +95,7 @@ hdpslv2
 
 
 # Editar o arquivo $HADOOP_HOME/etc/hadoop/yarn-site.xml e adicionar as linhas:
+# O yarn gerencia toda a aplicação
 
 <configuration>
 

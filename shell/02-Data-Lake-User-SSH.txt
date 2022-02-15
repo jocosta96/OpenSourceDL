@@ -6,7 +6,8 @@
 
 useradd -m hadoop
 passwd hadoop
-
+'jeferson'
+'jeferson'
 
 # Configurando o SSH (nos 3 servidores do cluster)
 vi /etc/ssh/sshd_config
@@ -32,17 +33,19 @@ su hadoop
 cd ~
 ssh-keygen
 
+usar nome 
+hdp-key
 
 # Copia a chave
 
-ssh-copy-id -i ~/.ssh/hdp-key.pub hadoop@hdpslv1
-ssh-copy-id -i ~/.ssh/hdp-key.pub hadoop@hdpslv2
+ssh-copy-id -i ~/.ssh/hdp-key.pub hadoop@hdpwkr1
+ssh-copy-id -i ~/.ssh/hdp-key.pub hadoop@hdpwkr2
 ssh-copy-id -i ~/.ssh/hdp-key.pub hadoop@hdpmaster
 
 
 # Testa a conexão
 
 # Do master para o slave
-ssh hadoop@hdpslv1 -i ~/.ssh/hdp-key
+ssh hadoop@hdpwkr1 -i ~/.ssh/hdp-key
 
 
