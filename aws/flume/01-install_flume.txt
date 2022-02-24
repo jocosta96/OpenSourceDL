@@ -1,0 +1,21 @@
+
+$ $HADOOP_HOME/sbin/start-dfs.sh
+$ $HADOOP_HOME/sbin/start-yarn.sh
+$ cd /opt
+$ sudo wget http://archive.apache.org/dist/flume/1.8.0/apache-flume-1.8.0-bin.tar.gz
+$ sudo rm -rf apache-flume-1.8.0-bin.tar.gz
+$ sudo mv apache-flume-1.8.0-bin/ flume
+$ sudo chown -R hadoop:hadoop flume/
+$ vi ~/.bash_profile
+
+
+
+# Adicionar:
+export FLUME_HOME=/opt/flume
+export PATH=$PATH:$FLUME_HOME/bin
+
+
+
+
+ 
+$ source ~/.bash_profile
