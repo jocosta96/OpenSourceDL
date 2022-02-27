@@ -1,0 +1,44 @@
+# Instalando kafka
+
+
+sudo wget https://archive.apache.org/dist/kafka/1.0.1/kafka_2.11-1.0.1.tgz
+sudo tar -xvf kafka_2.11-1.0.1.tgz
+sudo mv kafka_2.11-1.0.1 kafka
+sudo rm -rf kafka_2.11-1.0.1.tgz
+sudo chown -R  hadoop:hadoop kafka/
+vi ~/.bash_profile + *Adicionar KAFKA_HOME nas variáveis e KAFKA_HOME/bin no path
+source ~/.bash_profile
+
+
+# Iniciando o zookeeper
+
+
+$KAFKA_HOME/bin/zookeeper-server-start.sh $KAFKA_HOME/config/zookeeper.properties
+*pode ser iniciado em segundo plano
+
+
+# Iniciando broker
+
+
+$KAFKA_HOME/bin/kafka-server-start.sh $KAFKA_HOME/config/server.properties
+*pode ser iniciado em segundo plano
+
+
+# Criando um topic
+
+
+$KAFKA_HOME/bin/kafka-topics.sh --create --topic topico1 --zookeeper localhost:2181 --replication-factor 1 --partitions 1
+*listar com:
+$KAFKA_HOME/bin/kafka-topics.sh --list --zookeeper localhost:2181
+
+
+# Usando o producer built-in de teste do kafka
+
+
+$KAFKA_HOME/bin/kafka-console-producer.sh --broker-list localhost:9092 --topic topico1
+
+ 
+# Usando o consumer built-in de teste do kafka
+
+
+$KAFKA_HOME/bin/kafka-console-consumer.sh --zookeeper localhost:2181 --topic topico1 --from-beginning
