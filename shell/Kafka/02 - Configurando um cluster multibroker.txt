@@ -1,0 +1,39 @@
+# copy server.properties for each broke
+
+
+
+cp $KAFKA_HOME/config/server.properties server-0.properties
+cp $KAFKA_HOME/config/server.properties server-1.properties
+cp $KAFKA_HOME/config/server.properties server-2.properties
+
+
+
+# configure each broker properties file
+
+
+
+vi $KAFKA_HOME/config/server-0.properties
+    broker.id=0
+    listeners=PLAINTEXT://:9093
+    log.dirs=/tmp/kafka-logs
+
+vi $KAFKA_HOME/config/server-1.properties
+    broker.id=1
+    listeners=PLAINTEXT://:9094
+    log.dirs=/tmp/kafka-logs-1
+
+vi $KAFKA_HOME/config/server-2.properties
+    broker.id=2
+    listeners=PLAINTEXT://:9095
+    log.dirs=/tmp/kafka-logs-1
+
+
+
+# creating topic with multi replication factor
+
+
+
+$KAFKA_HOME/config/bin/kafka-topics.sh --create --topic topico2 --zookeeper localhost:2181 --replication-factor 3 --partitions 1
+
+*replication is used to ensure falt tolerance
+*partition is used to grant scalability
