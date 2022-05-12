@@ -1,0 +1,35 @@
+
+# Downloading files
+
+$ cd /opt
+$ sudo wget https://archives.streamsets.com/datacollector/3.3.1/tarball/streamsets-datacollector-core-3.3.1.tgz
+
+# Decompressing tgz file
+
+$ sudo tar -xvzf streamsets-datacollector-core-3.3.1.tgz
+
+# Moving to directory
+
+$ sudo mv streamsets-datacollector-3.3.1/ streamsets
+
+# Changing owner
+
+$ sudo chown -R hadoop:hadoop streamsets/
+
+# Removing download file
+$ sudo rm -rf streamsets-datacollector-core-3.3.1.tgz
+
+# Create STREAMSETS_HOME and add $STREAMSETS_HOME/bin do path
+
+$ vi ~/.bash_profile
+
+*add the following lines
+
+export STREAMSETS_HOME=/opt/streamsets
+export PATH=$PATH:$STREAMSETS_HOME/bin
+
+$ source ~/.bash_profile
+
+# Start 
+
+$ streamsets dc
