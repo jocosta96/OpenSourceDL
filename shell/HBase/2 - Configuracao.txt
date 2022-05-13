@@ -1,0 +1,104 @@
+cd /opt/hbase/conf
+
+
+
+########## configurando o arquivo hbase-env.sh
+
+
+
+vi hbase-env.sh
+
+## configurar:
+
+export JAVA_HOME=/opt/jdk
+
+export HBASE_MANAGES_ZK=true
+
+
+# Salvar e sair (:wq)
+
+
+
+########## configurando o arquivo hbase-site.xml
+
+
+
+vi hbase-site.xml
+
+## configurar:
+
+<configuration>
+ <property>
+  <name>hbase.rootdir</name>
+  <value>hdfs://ip-172-31-7-63.us-east-2.compute.internal:19000/hbase</value>
+ </property>
+ <property>
+  <name>hbase.cluster.distributed</name>
+  <value>true</value>
+ </property>
+ <property>
+  <name>hbase.zookeeper.property.dataDir</name>
+  <value>/home/hadoop/zookeeper</value>
+ </property>
+ <property>
+  <name>hbase.zookeeper.quorum</name>
+  <value>ip-172-31-7-63.us-east-2.compute.internal</value>
+ </property>
+ <property>
+  <name>hbase.zookeeper.property.clientPort</name>
+  <value>2181</value>
+ </property>
+ <property>
+  <name>hbase.unsafe.stream.capability.enforce</name>
+  <value>false</value>
+ </property>
+</configuration>
+
+# Salvar e sair (:wq)
+
+
+
+#### configurando o arquivo regionservers
+
+vi regionservers
+
+<adicionar o endereço IP interno dos workers>
+
+# Salvar e sair (:wq)
+
+
+# Executar o comando abaixo em cada Slave:
+
+sudo mkdir /opt/hbase
+cd /opt
+sudo chown -R hadoop:hadoop /opt/hbase/
+
+vi ~/.bash_profile
+
+
+Adicionar a seguinte configuração:
+
+# HBase
+export HBASE_HOME=/opt/hbase
+export PATH=$PATH:$HBASE_HOME/bin
+export CLASSPATH=$CLASSPATH:/opt/hbase/lib/*:.
+
+
+
+# Execute o comando abaixo como usuário hadoop no Node Master para instalar o Hadoop (copiar os arquivos) para o Slave:
+
+scp -rv /opt/hbase <ip interno>:/opt
+
+
+# Caso a aplicação principal não seja inicada, um dos possíveis erros pode ser resolvido por:
+# Erro encontrado na versão 2.1.0
+
+# Fix
+ls -la $HBASE_HOME/lib/htrace-core-3.1.0-incubating.jar
+cp $HBASE_HOME/lib/client-facing-thirdparty/htrace-core-3.1.0-incubating.jar $HBASE_HOME/lib/
+
+
+
+#teste
+
+hbase shell

@@ -1,0 +1,24 @@
+# Instalando HBase
+
+
+cd Downloads
+
+wget https://dlcdn.apache.org/hbase/2.4.11/hbase-2.4.11-bin.tar.gz
+
+tar -xvf hbase-2.4.11-bin.tar.gz
+
+rm -rf hbase-2.4.11-bin.tar.gz
+
+sudo mv hbase-2.4.11 /opt/hbase
+
+vi ~/.bash_profile
+
+Adicionar a seguinte configuração:
+
+# HBase
+export HBASE_HOME=/opt/hbase
+export PATH=$PATH:$HBASE_HOME/bin
+export CLASSPATH=$CLASSPATH:/opt/hbase/lib/*:.
+
+
+

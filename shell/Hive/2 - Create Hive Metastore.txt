@@ -1,0 +1,51 @@
+# This Steps Needs MySql Installed
+
+
+
+cd ~/Downloads
+
+wget https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-8.0.28.zip
+
+unzip mysql-connector-java-8.0.28.zip
+
+rm -rf mysql-connector-java-8.0.28.zip
+
+
+
+# Place connector in hive lib folder
+
+
+
+cp mysql-connector-java-8.0.28/mysql-connector-java-8.0.28.jar /opt/hive/lib/
+
+
+
+# Create metastore database in mysql
+
+
+
+mysql -u root -p
+
+create database metastore;
+
+use metastore;
+
+
+
+# Use hive sample script to build necessary tables into metastore database
+
+
+
+$ mysql -u root -p
+ 
+mysql> CREATE DATABASE metastore;
+ 
+mysql> USE metastore;
+ 
+mysql> SOURCE /opt/hive/scripts/metastore/upgrade/mysql/hive-schema-3.1.0.mysql.sql;
+
+mysql> CREATE USER 'hiveuser'@'%' IDENTIFIED BY 'hivepassword'; 
+ 
+mysql> GRANT all on *.* to 'hiveuser'@localhost identified by 'hivepassword';
+ 
+mysql>  flush privileges;

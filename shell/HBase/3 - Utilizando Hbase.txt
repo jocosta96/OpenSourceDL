@@ -1,0 +1,7 @@
+hbase shell
+
+create 'cdr', 'index', 'customer', 'type', 'timing', 'usage', 'correspondent', 'network'
+
+put 'cdr', '010', 'index,customerindex', '0'
+
+scan 'cdr'

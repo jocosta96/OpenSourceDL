@@ -1,0 +1,24 @@
+1 - Conexão SSH sem senha
+
+#gerar chaves públicas e privadas
+
+ssh-keygen
+
+#enviar a chave pública (.ssh/id_rsa.pub) para os nodes na pasta ~/.ssh
+
+#atribuir a chave pública às chaves autorizadas 
+
+cat id_rsa.pub >> authorized_keys
+
+#garantir que as chaves tem as permissões corretas:
+
+chmod 700 ~/.ssh 
+chmod 600 ~/.ssh/authorized_keys
+
+
+2 - Atribuir, em todos os nodes os IPs dos hosts
+
+sudo vi /etc/hosts
+
+
+<preencher com o nome <espaço> IP de cada host>

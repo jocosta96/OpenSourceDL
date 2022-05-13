@@ -1,0 +1,18 @@
+#Download and Install hive
+
+cd /opt
+
+sudo wget https://downloads.apache.org/hive/hive-3.1.2/apache-hive-3.1.2-bin.tar.gz
+
+sudo tar -xvf apache-hive-3.1.2-bin.tar.gz
+
+sudo mv apache-hive-3.1.2-bin /opt/hive-3
+
+vi ~/.bash_profile
+
+# add following code
+
+export HIVE_HOME=/opt/hive
+export PATH=$PATH:HIVE_HOME/bin
+
+source ~/.bash_profile

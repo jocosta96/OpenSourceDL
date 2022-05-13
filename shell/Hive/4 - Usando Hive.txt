@@ -1,0 +1,15 @@
+$HADOOP_HOME/sbin/start-dfs.sh
+$HADOOP_HOME/sbin/start-yarn.sh
+
+hive
+
+# Cria tabela no Hive apontando para dados no HDFS.
+
+create external table tb_teste (
+  id int,
+  nome string
+)
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ';'
+location '/tmp/teste';
+
