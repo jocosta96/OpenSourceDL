@@ -1,0 +1,23 @@
+ <property>
+  <name>hadoop.security.authentication</name>
+  <value>kerberos</value>
+ </property>
+
+ <property>
+  <name>hadoop.security.authorization</name>
+  <value>true</value>
+ </property>
+
+ <property>
+  <name>hadoop.rpc.protection</name>
+  <value>authentication</value>
+ </property>
+
+ <property>
+  <name>hadoop.security.auth_to_local</name>
+  <value>
+    RULE:[2:$1/$2@$0]([nd]n/.*@DSA.COM)s/.*/hdfs/
+    RULE:[2:$1/$2@$0](yarn/.*@DSA.COM)s/.*/yarn/
+    DEFAULT
+  </value>
+</property>

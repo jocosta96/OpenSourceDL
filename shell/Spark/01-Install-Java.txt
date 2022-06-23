@@ -1,0 +1,68 @@
+# Instalação Spark
+
+# Instalando e Configurando o Java JDK (nos 3 servidores do cluster)
+
+# Acessa o diretório
+cd /opt/
+
+# Instala o wget
+sudo yum install wget
+
+# Faz o download
+wget http://datascienceacademy.com.br/blog/aluno/JDK/jdk-8u181-linux-x64.tar.gz
+
+# Descompacta o arquivo
+tar xzf jdk-8u181-linux-x64.tar.gz
+
+# Verifica a versão
+java -version
+sudo mv jdk1.8 /opt/jdk
+
+# Configurando as variáveis de ambiente
+
+vi .bash_profile
+
+# Java JDK 1.8
+export JAVA_HOME=/opt/jdk
+export JRE_HOME=/opt/jdk/jre
+export PATH=$PATH:$JAVA_HOME/bin:$JRE_HOME/bin
+
+source .bash_profile
+
+java -version
+
+
+# Atualiza o SO
+sudo yum update
+
+#Hosts
+
+192.168.1.103 master
+192.168.1.115 worker1
+192.168.1.116 worker2
+
+ssh-keygen -t rsa -P ""
+ssh-copy-id -i id_rsa.pub jeferson@worker1
+ssh-copy-id -i id_rsa.pub jeferson@worker2
+
+baixar e descompactar o spark
+
+add nas variáveis de ambiente
+
+# Spark
+export SPARK_HOME=/opt/spark
+export PATH=$PATH:$SPARK_HOME/bin
+
+# Conf
+workers = worker1, worker2
+spark_env:
+export SPARK_MASTER_HOST=192.168.1.103
+export JAVA_HOME=/opt/jdk
+
+# SO config
+sudo vi /etc/security/limits.conf
+
+add:
+
+*	soft	nofile	65536
+*	hard	nofile	65536

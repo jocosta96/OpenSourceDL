@@ -1,0 +1,38 @@
+
+cd ~/Downloads
+
+wget https://kerberos.org/dist/krb5/1.17/krb5-1.17.tar.gz
+
+tar -xvf krb5-1.17.tar.gz
+
+sudo mv krb5-1.17 /opt/kerberos
+
+# com superuser
+
+cd /opt/kerberos/src
+
+./configure
+
+make
+
+make install
+
+yum install krb5-libs krb5-server krb5-workstation
+
+vi /etc/krb5.conf
+vi /var/kerberos/krb5kdc/kdc.conf
+vi /var/kerberos/krb5kdc/kadm5.acl
+
+kdb5_util create -s
+
+kadmin.local -q "addprinc hadoop/admin"
+
+cp /usr/local/var/krb5kdc/* /var/kerberos/krb5kdc
+cp /usr/local/var/krb5kdc/.k5.DSA.COM /var/kerberos/krb5kdc
+
+service krb5kdc start
+service kadmin start
+
+#Marcar serviços para iniciar com boot
+chkconfig krb5kdc on
+chkconfig kadmin on

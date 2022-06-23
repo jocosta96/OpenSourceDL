@@ -1,0 +1,106 @@
+GGSCI (hdpmaster) 4> strat manager
+ERROR: Invalid command.
+
+GGSCI (hdpmaster) 5> start manager
+Manager started.
+
+
+GGSCI (hdpmaster) 6> exit
+[hadoop@hdpmaster oggbd]$ ls
+AdapterExamples  dirprm         libantlr3c.so                 libi
+bcpfmt.tpl       dirrpt         libboost_system-mt.so.1.58.0  libl
+bcrypt.txt       dirsql         libcassandra.so               libP
+cachefiledump    dirtmp         libcassandra.so.2             libP
+checkprm         dirwlt         libcassandra.so.2.8.0         libP
+convchk          dirwww         libdb-6.1.so                  libP
+convprm          emsclnt        libggbigdata_vam.so           libP
+crypto           extract        libggjava.so                  libP
+db2cntl.tpl      freeBSD.txt    libggjava_vam.so              libP
+db_upgrade       ggcmd          libgglog.so                   libu
+dirchk           ggjava         libggnnzitp.so                libu
+dircrd           ggMessage.dat  libggparam.so                 libu
+dirdat           ggparam.dat    libggperf.so                  libu
+dirdef           ggsci          libggrepo.so                  libu
+dirdmp           ggserr.log     libggssl.so                   libu
+diretc           help.txt       libggutil.so                  libx
+dirout           keygen         libicudata.so.56              logd
+dirpcs           lib            libicui18n.so.56              mgr
+[hadoop@hdpmaster oggbd]$ cd AdapterExamples/
+[hadoop@hdpmaster AdapterExamples]$ ls
+big-data  java-delivery  jms-capture  licenses  trail
+[hadoop@hdpmaster AdapterExamples]$ cd big-data/
+[hadoop@hdpmaster big-data]$ ls
+bigquery   cassandracapture  filewriter  hbase  jdbc   kafka_conne
+cassandra  elasticsearch     flume       hdfs   kafka  kinesis_str
+[hadoop@hdpmaster big-data]$ cd hdfs/
+[hadoop@hdpmaster hdfs]$ ls
+hdfs.props  rhdfs.prm
+[hadoop@hdpmaster hdfs]$ cp *.* /u01/oggbd/dirprm
+[hadoop@hdpmaster hdfs]$ cd /u01/oggbs/dirprm
+-bash: cd: /u01/oggbs/dirprm: No such file or directory
+[hadoop@hdpmaster hdfs]$ cd /u01/oggbd/dirprm
+[hadoop@hdpmaster dirprm]$ ls
+hdfs.props  mgr.prm  rhdfs.prm
+[hadoop@hdpmaster dirprm]$ vi hdfs.props
+[hadoop@hdpmaster dirprm]$ vi hdfs.props
+[hadoop@hdpmaster dirprm]$ vi irhdfs.prm
+[hadoop@hdpmaster dirprm]$ vi rhdfs.prm
+[hadoop@hdpmaster dirprm]$ ls -la
+total 20
+drwxr-x---.  2 hadoop hadoop   74 May 14 17:07 .
+drwxr-x---. 21 hadoop hadoop 4096 May 14 16:54 ..
+-rw-r--r--.  1 hadoop hadoop  823 May 14 17:01 hdfs.props
+-rw-rw-r--.  1 hadoop hadoop  512 May 14 17:06 irhdfs.prm
+-rw-r-----.  1 hadoop hadoop   11 May 14 16:54 mgr.prm
+-rw-r--r--.  1 hadoop hadoop  399 May 14 17:07 rhdfs.prm
+[hadoop@hdpmaster dirprm]$ clear
+[hadoop@hdpmaster dirprm]$ jps
+16097 SecondaryNameNode
+15861 DataNode
+32297 Jps
+15614 NameNode
+21215 ResourceManager
+[hadoop@hdpmaster dirprm]$ cd ..
+[hadoop@hdpmaster oggbd]$ ./ggsci
+
+Oracle GoldenGate for Big Data
+Version 12.3.2.1.1 (Build 005)
+
+Oracle GoldenGate Command Interpreter
+Version 12.3.0.1.2 OGGCORE_OGGADP.12.3.0.1.2_PLATFORM             S_180712.2305
+Linux, x64, 64bit (optimized), Generic on Jul 13 2018              00:46:09
+Operating system character set identified as UTF-8.
+
+Copyright (C) 1995, 2018, Oracle and/or its affiliate             s. All rights reserved.
+
+
+
+GGSCI (hdpmaster) 1> start manager
+MGR is already running.
+
+
+GGSCI (hdpmaster) 2> stop manager
+Manager process is required by other GGS processes.
+Are you sure you want to stop it (y/n)?y
+
+Sending STOP request to MANAGER ...
+Request processed.
+Manager stopped.
+
+
+GGSCI (hdpmaster) 3> ^Z
+[3]+  Stopped                 ./ggsci
+[hadoop@hdpmaster oggbd]$
+[hadoop@hdpmaster oggbd]$ $HADOOP_HOME/sbin/stop-yarn.sh
+Stopping nodemanagers
+Stopping resourcemanager
+[hadoop@hdpmaster oggbd]$ $HADOOP_HOME/sbin/stop-dfs.sh
+Stopping namenodes on [hdpmaster]
+hadoop@hdpmaster's password:
+Stopping datanodes
+Stopping secondary namenodes [hdpmaster]
+hadoop@hdpmaster's password:
+[hadoop@hdpmaster oggbd]$ exit
+logout
+There are stopped jobs.
+[hadoop@hdpmaster oggbd]$

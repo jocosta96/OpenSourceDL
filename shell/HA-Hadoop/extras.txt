@@ -1,0 +1,15 @@
+192.168.1.110	nn1.dsa.com
+192.168.1.112	nn2.dsa.com
+192.168.1.113	dn1.dsa.com
+192.168.1.114	dn2.dsa.com
+
+
+scp -rv -i "~/.ssh/id_rsa" /opt/hadoop/etc/hadoop/  hadoop@nn2.dsa.com:/opt/hadoop/etc/
+scp -rv -i "~/.ssh/id_rsa" /opt/hadoop/etc/hadoop/  hadoop@dn1.dsa.com:/opt/hadoop/etc/
+scp -rv -i "~/.ssh/id_rsa" /opt/hadoop/etc/hadoop/  hadoop@dn2.dsa.com:/opt/hadoop/etc/
+
+scp -rv -i "~/.ssh/id_rsa" /opt/zookeeper/conf  hadoop@nn2.dsa.com:/opt/zookeeper/
+scp -rv -i "~/.ssh/id_rsa" /opt/zookeeper/conf  hadoop@dn1.dsa.com:/opt/zookeeper/
+scp -rv -i "~/.ssh/id_rsa" /opt/zookeeper/conf  hadoop@dn2.dsa.com:/opt/zookeeper/
+
+/opt/hadoop/logs/*.log

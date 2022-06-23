@@ -1,0 +1,238 @@
+###################################### yarn ###########################################
+
+vi /opt/hadoop/etc/hadoop/core-site.xml
+
+#  adicionar:
+
+<property>
+  <name>hadoop.security.authentication</name>
+  <value>kerberos</value>
+ </property>
+
+ <property>
+  <name>hadoop.security.authorization</name>
+  <value>true</value>
+ </property>
+
+ <property>
+  <name>hadoop.rpc.protection</name>
+  <value>authentication</value>
+ </property>
+
+ <property>
+  <name>hadoop.security.auth_to_local</name>
+  <value>
+    RULE:[2:$1/$2@$0]([nd]n/.*@DSA.COM)s/.*/hdfs/
+    RULE:[2:$1/$2@$0](yarn/.*@DSA.COM)s/.*/yarn/
+    DEFAULT
+  </value>
+</property>
+
+###################################### yarn ###########################################
+
+vi /opt/hadoop/etc/hadoop/yarn-site.xml
+
+#Adicionar
+
+
+<property>
+  <name>yarn.resourcemanager.principal</name>
+  <value>yarn/_HOST@DSA.COM</value>
+</property>
+
+<property>
+  <name>yarn.resourcemanager.keytab</name>
+  <value>/opt/hadoop/etc/hadoop/yarn.service.keytab</value>
+  </property>
+
+<property>
+  <name>yarn.nodemanager.principal</name>
+  <value>yarn/_HOST@DSA.COM</value>
+</property>
+
+<property>
+  <name>yarn.manager.keytab</name>
+  <value>/opt/hadoop/etc/hadoop/yarn.service.keytab</value>
+</property>
+
+<property>
+  <name>yarn.nodemanager.container-executor.class</name>
+  <value>org.apache.hadoop.yarn.server.nodemanager.LinuxContainerExecutor</value>
+</property>
+
+
+############################################### hdfs-site ##########################################
+
+<property>
+  <name>dfs.namenode.kerberos.principal</name>
+  <value>nn/_HOST@DSA.COM</value>
+</property>
+
+<property>
+  <name>dfs.secondary.namenode.kerberos.principal</name>
+  <value>nn/_HOST@DSA.COM</value>
+</property>
+
+<property>
+  <name>dfs.datanode.kerberos.principal</name>
+  <value>dn/_HOST@DSA.COM</value>
+</property>
+
+<property>
+  <name>dfs.journalnode.kerberos.principal</name>
+  <value>nn/_HOST@DSA.COM</value>
+</property>
+
+<property>
+  <name>dfs.web.authentication.kerberos.principal</name>
+  <value>HTTP/_HOST@DSA.COM</value>
+</property>
+
+<property>
+  <name>dfs.namenode.kerberos.internal.spnego.principal</name>
+  <value>HTTP/_HOST@DSA.COM</value>
+</property>
+
+<property>
+  <name>dfs.journalnode.kerberos.internal.spnego.principal</name>
+  <value>HTTP/_HOST@DSA.COM</value>
+</property>
+
+<property>
+  <name>dfs.secondary.namenode.kerberos.internal.spnego.principal</name>
+  <value>HTTP/_HOST@DSA.COM</value>
+</property>
+
+<property>
+  <name>dfs.namenode.keytab.file</name>
+  <value>/opt/hadoop/etc/hadoop/nn.service.keytab</value>
+</property>
+
+<property>
+  <name>dfs.journalnode.keytab.file</name>
+  <value>/opt/hadoop/etc/hadoop/nn.service.keytab</value>
+</property>
+
+<property>
+  <name>dfs.secondary.namenode.keytab.file</name>
+  <value>/opt/hadoop/etc/hadoop/nn.service.keytab</value>
+</property>
+
+<property>
+  <name>dfs.datanode.keytab.file</name>
+  <value>/opt/hadoop/etc/hadoop/dn.service.keytab</value>
+</property>
+
+<property>
+  <name>dfs.web.authentication.kerberos.keytab</name> 
+  <value>/opt/hadoop/etc/hadoop/spnego.service.keytab</value>              
+</property>  
+
+<property>
+  <name>dfs.block.access.token.enable</name>
+  <value>true</value>
+</property>
+
+<property>
+  <name>dfs.datanode.address</name> 
+  <value>0.0.0.0:1019</value>           
+</property>  
+
+<property>
+  <name>dfs.datanode.http.address</name> 
+  <value>0.0.0.0:1022</value>           
+</property>  
+
+# Copiar os arquivos do nn1 para nne e dn1
+
+cd /opt/hadoop/etc/hadoop/
+
+scp *.keytab hadoop@nn2.dsa.com:/opt/hadoop/etc/hadoop
+scp *.keytab hadoop@dn1.dsa.com:/opt/hadoop/etc/hadoop
+scp *.keytab hadoop@dn2.dsa.com:/opt/hadoop/etc/hadoop
+
+scp core-site.xml hdfs-site.xml yarn-site.xml hadoop@nn2.dsa.com:/opt/hadoop/etc/hadoop
+scp core-site.xml hdfs-site.xml yarn-site.xml hadoop@dn1.dsa.com:/opt/hadoop/etc/hadoop
+scp core-site.xml hdfs-site.xml yarn-site.xml hadoop@dn2.dsa.com:/opt/hadoop/etc/hadoop
+
+# Configurar os Data Nodes
+
+sudo yum install jsvc
+
+vi /opt/hadoop/etc/hadoop/hadoop-env.sh
+
+configurar:
+
+JSVC_HOME=/usr/bin/jsvc
+HADOOP_SECURE_PID_DIR=${HADOOP_PID_DIR}
+HADOOP_SECURE_LOG=${HADOOP_LOG_DIR}
+HDFS_DATANODE_SECURE_USER=hadoop
+
+# limpar os logs de todas as máquinas
+rm -rf /opt/hadoop/logs/*
+sudo rm -rf /tmp/*
+
+
+# Enviar arquivos de configurações para outros nodes
+vi /etc/krb5.conf
+
+configurar:
+[logging]
+     default = FILE:/var/log/krb5libs.log
+     kdc = FILE:/var/log/krb5kdc.log
+     admin_server = FILE:/var/log/kadmind.log
+
+[libdefaults]
+     default_realm = DSA.COM
+     dns_lookup_realm = false
+     dns_lookup_kdc = false
+     ticket_lifetime = 24h
+     renew_lifetime = 7d
+     forwardable = true
+
+[realms]
+     DSA.COM = {
+      kdc = nn1.dsa.com
+      admin_server = nn1.dsa.com
+     }
+
+[domain_realm]
+     .dsa.com = DSA.COM
+     dsa.com = DSA.COM
+
+# Inicialização do Cluster HA
+
+
+# 1- Inicialização do Journal Node nas 3 máquinas do cluster
+hdfs --daemon start journalnode
+
+# 2- Format do Namenode 1 (somente na primeira inicialização do cluster)
+hdfs namenode -format
+
+# 3- Verifica se o firewall está ativo
+sudo firewall-cmd --state
+
+# 4- Inicialização do NameNode no NameNode Ativo
+hdfs --daemon start namenode
+
+# 5- Copiar os metadados do NomeNode Ativo para o StandBy (apenas na primeira inicialização, executar no NameNode Standby)
+hdfs namenode -bootstrapStandby
+
+# 6- Inicialização do NameNode no NameNode Standby
+hdfs --daemon start namenode
+
+# 7- Inicialização do Zookeeper em todas as máquinas do cluster
+zkServer.sh start
+
+# 8- Inicialização do DataNode 
+sudo /opt/hadoop/bin/hdfs --daemon start datanode
+
+# 9- Formatar o HA State (apenas na primeira inicialização)
+hdfs zkfc -formatZK
+
+# 10- Inicializa o Zookeeper HA Failover Controller (nos dois NameNodes)
+hdfs --daemon start zkfc
+
+# 11 - Checar se os NameNodes estão configurados em HA
+hdfs haadmin -getServiceState nn1
+
